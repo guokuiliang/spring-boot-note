@@ -11,7 +11,7 @@
     <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/${name}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/etl.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/${name}.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -36,6 +36,7 @@
     <logger name="jdbc.sqltiming" level="INFO"/>
     <logger name="jdbc.audit" level="ERROR"/>
     <logger name="jdbc.resultset" level="ERROR"/>
+    <logger name-"jdbc.resultsettable" level="INFO">
 </configuration>
 ```
 ```
