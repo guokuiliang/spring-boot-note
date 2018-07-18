@@ -9,16 +9,16 @@
         </encoder>
     </appender>
     <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/infisa.${name}.log</file>
+        <file>logs/${name}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/infisa.clinic.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/etl.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
     <!-- project default level -->
-    <logger name="cn.infisa" level="info"/>
+    <logger name="cn.etl" level="info"/>
     <!-- 定义根日志级别 -->
     <root level="info">
         <appender-ref ref="rollingFile"/>
