@@ -1,0 +1,36 @@
+```
+spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+spring.datasource.url=jdbc:log4jdbc:h2:mem:research;MODE=MySql;DB_CLOSE_DELAY=1
+spring.datasource.username=sa
+spring.datasource.password=
+spring.datasource.max-active=40
+spring.datasource.max-idle=5
+spring.jpa.properties.hibernate.hbm2ddl.auto=none
+spring.jpa.properties.hibernate.show_sql=true
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.naming.physical-strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+```
+
+
+
+下面为官方文档所说，只需在根目录去定义　schema.sql and data.sql即可
+并且加入这个选项
+spring.datasource.initialization-mode=never
+
+81.3 Initialize a Database
+Spring Boot can automatically create the schema (DDL scripts) of your DataSource and initialize it (DML scripts). It loads SQL from the standard root classpath locations: schema.sql and data.sql, respectively. In addition, Spring Boot processes the schema-${platform}.sql and data-${platform}.sql files (if present), where platform is the value of spring.datasource.platform. This allows you to switch to database-specific scripts if necessary. For example, you might choose to set it to the vendor name of the database (hsqldb, h2, oracle, mysql, postgresql, and so on).
+
+[Note]
+Spring Boot automatically creates the schema of an embedded DataSource. This behaviour can be customized by using the spring.datasource.initialization-mode property. For instance, if you want to always initialize the DataSource regardless of its type:
+
+spring.datasource.initialization-mode=always
+By default, Spring Boot enables the fail-fast feature of the Spring JDBC initializer. This means that, if the scripts cause exceptions, the application fails to start. You can tune that behavior by setting spring.datasource.continue-on-error.
+
+[Note]
+In a JPA-based app, you can choose to let Hibernate create the schema or use schema.sql, but you cannot do both. Make sure to disable spring.jpa.hibernate.ddl-auto if you use schema.sql.
+
+81.4 Initialize a Spring Batch Database
+If you use Spring Batch, it comes pre-packaged with SQL initialization scripts for most popular database platforms. Spring Boot can detect your database type and execute those scripts on startup. If you use an embedded database, this happens by default. You can also enable it for any database type, as shown in the following example:
+
+spring.batch.initialize-schema=always
+You can also switch off the initialization explicitly by setting spring.batch.initialize-schema=never.
