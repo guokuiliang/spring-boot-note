@@ -12,11 +12,31 @@ spring.jpa.hibernate.naming.physical-strategy=org.springframework.boot.orm.jpa.h
 ```
 
 
-
 下面为官方文档所说，只需在根目录去定义　schema.sql and data.sql即可
 并且加入这个选项
 spring.datasource.initialization-mode=never
 
+spring.datasource.schema=classpath:h2/schema.sql
+spring.datasource.data=classpath:h2/data.sql
+
+源代码
+
+```java
+	private List<Resource> getScripts(String propertyName, List<String> resources,
+			String fallback) {
+		if (resources != null) {
+			return getResources(propertyName, resources, true);
+		}
+		String platform = this.properties.getPlatform();
+		List<String> fallbackResources = new ArrayList<>();
+		fallbackResources.add("classpath*:" + fallback + "-" + platform + ".sql");
+		fallbackResources.add("classpath*:" + fallback + ".sql");
+		return getResources(propertyName, fallbackResources, false);
+	}
+```
+
+官网文档
+```js
 81.3 Initialize a Database
 Spring Boot can automatically create the schema (DDL scripts) of your DataSource and initialize it (DML scripts). It loads SQL from the standard root classpath locations: schema.sql and data.sql, respectively. In addition, Spring Boot processes the schema-${platform}.sql and data-${platform}.sql files (if present), where platform is the value of spring.datasource.platform. This allows you to switch to database-specific scripts if necessary. For example, you might choose to set it to the vendor name of the database (hsqldb, h2, oracle, mysql, postgresql, and so on).
 
@@ -34,3 +54,4 @@ If you use Spring Batch, it comes pre-packaged with SQL initialization scripts f
 
 spring.batch.initialize-schema=always
 You can also switch off the initialization explicitly by setting spring.batch.initialize-schema=never.
+```
